@@ -4,7 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, 
+MessageSquare, 
+ImageIcon, 
+VideoIcon, 
+Music, 
+Code,
+Settings
+} from "lucide-react";
 
 const montserrat= Montserrat({
 weight: "600",
@@ -16,14 +23,50 @@ const routes = [
 label:"Dashboard",
 icon:LayoutDashboard,
 href: "/dashboard",
-color:"text-sky-500",
+color:"text-sky-400",
+},  
+{
+label:"Conversation",
+icon:MessageSquare,
+href: "/Conversation",
+color:"text-violet-400",
+},  
+{
+label:"Image Generation",
+icon:ImageIcon,
+href: "/Image",
+color:"text-pink-400",
+},  
+{
+label:"video Generation",
+icon: VideoIcon,
+href: "/video",
+color:"text-orange-300",
+}, 
+{
+label:"Music Generation",
+icon: Music,
+href: "/Music",
+color:"text-emerald-400",
+},  
+{
+label:"Code Generation",
+icon: Code,
+href: "/Code",
+color:"text-red-500",
+},  
+{
+label:"Settings",
+icon: Settings,
+href: "/Settings",
+color:"text-gray-400",
 },  
 ];
 
 const Sidebar = () => {
 return (
-<div className="space-y-4 py-4 flex-col h-full
-bg-[#111827] text-white">
+<div className="space-y-4 py-4 flex-col h-full text-white
+bg-[#2e4e8e]">
 <div className="px-3 py-2 flex-1">
 <Link href="/dashboard" className="flex
 items-center pl-3 mb-14">
@@ -43,7 +86,9 @@ Basera
 <Link
 href={route.href}
 key={route.href}
->
+className="text-sm group flex p-3 wfull 
+justify-start font-medium cursor-pointer
+hover:text-white hover:bg-white/10 rounded-lg transition">
 <div className="flex items-center flex-1">
 <route.icon className={cn("h-5 w-5 mr-3", route. 
 color)} />
@@ -55,7 +100,7 @@ color)} />
 </div>
 </div>
 </div>
+
 );
 }
-export default Sidebar;
-//اضافة الصورة مو ضابط لازم ارجع له
+export default Sidebar; 
