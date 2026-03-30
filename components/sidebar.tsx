@@ -29,7 +29,7 @@ color:"text-sky-400",
 {
 label:"Conversation",
 icon:MessageSquare,
-href: "/Conversation",
+href: "/conversation",
 color:"text-violet-400",
 },  
 {
@@ -67,11 +67,9 @@ color:"text-gray-400",
 const Sidebar = () => {
 const pathname = usePathname()
 return (
-<div className="space-y-4 py-4 flex-col h-full text-white
-bg-[#2e4e8e]">
+<div className="space-y-4 py-4 flex-col h-full text-white bg-[#2e4e8e]">
 <div className="px-3 py-2 flex-1">
-<Link href="/dashboard" className="flex
-items-center pl-3 mb-14">
+<Link href="/dashboard" className="flex items-center pl-3 mb-14">
 
 <div className="relative w-8 h-8 mr-4">
 <Image fill alt="logo" src="/Basera-Logo.png"/>

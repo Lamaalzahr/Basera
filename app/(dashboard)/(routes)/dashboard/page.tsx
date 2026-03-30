@@ -16,7 +16,7 @@ label: "المحادثة",
 icon: MessageSquare,
 color: "text-violet-400",
 bgColor: "bg-violet-400/15",
-href: "/conversaion"
+href: "/conversation"
 },
 {
 label:"توليد الموسيقى",
