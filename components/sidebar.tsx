@@ -39,7 +39,7 @@ href: "/Image",
 color:"text-pink-400",
 },  
 {
-label:"video Generation",
+label:"Video Generation",
 icon: VideoIcon,
 href: "/video",
 color:"text-orange-400",

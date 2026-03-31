@@ -10,7 +10,7 @@ const MobileSidebar = () => {
 // في حال طلع لي ايرور في الموقع عشان الترطيب
 const [isMounted, setIsmounted] = useState(false);
 useEffect(() =>{
-setIsmounted
+setIsmounted(true);
 }, []);
 if (!isMounted){
 return null;
@@ -19,13 +19,14 @@ return null;
 
 return(
 <Sheet>
-<SheetTrigger> 
+<SheetTrigger asChild> 
 <Button variant="ghost" size="icon" className="md:hidden">
 
 <Menu/>
 </Button>
 </SheetTrigger>  
 <SheetContent side="left" className="p-8 bg-[#2e4e8e]">
+    
 <Sidebar/>
 </SheetContent>
 </Sheet>

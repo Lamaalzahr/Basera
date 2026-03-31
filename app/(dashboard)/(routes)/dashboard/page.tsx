@@ -12,35 +12,35 @@ import { useRouter } from "next/navigation";
 
 const tools = [
 {
-label: "المحادثة",
+label: "Conversation",
 icon: MessageSquare,
 color: "text-violet-400",
 bgColor: "bg-violet-400/15",
 href: "/conversation"
 },
 {
-label:"توليد الموسيقى",
+label:"Music Generation",
 icon: Music,
 color: "text-emerald-400",
 bgColor: "bg-emerald-400/10",
 href: "/music"
 },
 {
-label:"توليد الصور",
+label: "Image Generation",
 icon:ImageIcon,
 color:"text-pink-400",
 bgColor: "bg-pink-400/10",
 href: "/image"
 },  
 {
-label:"توليد الفيديو",
+label:"Video Generation",
 icon: VideoIcon,
 href: "/video",
 color:"text-orange-400",
 bgColor: "bg-orange-400/10",
 }, 
 {
-label:"توليد الأكواد",
+label:"Code Generation",
 icon: Code,
 href: "/Code",
 color:"text-red-500",
