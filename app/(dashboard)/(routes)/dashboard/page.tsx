@@ -54,7 +54,7 @@ const DashboardPage = () => {
 const router = useRouter();
 
 return (
-<div> 
+<div className="h-full"> 
 <div className="mb-8 space-y-4">
 <h2 className="text-2xl md:text-4xl font-bold text-center">
 استكشف قوة الذكاء الاصطناعي
@@ -68,12 +68,13 @@ return (
 <Card
 onClick={() => router.push(tool.href)}
 key={tool.href}
+dir="ltr" 
 className="p-4 border-black/5 
 flex items-center justify-between 
-hover:shadow-md transtion cursor-pointer">
+hover:shadow-md transition cursor-pointer">
 
 <div className="flex items-center gap-x-4">
-<div className={cn("p-2 w-fit ronded-md", tool.bgColor)}>
+<div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
 <tool.icon className={cn("w-8 h-8", tool.color)} />
 </div>
 <div className="font-semibold">

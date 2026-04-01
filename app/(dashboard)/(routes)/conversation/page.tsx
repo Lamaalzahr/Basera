@@ -10,6 +10,7 @@ import { Form,
 FormControl, 
 FormField, 
 FormItem, } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 
 
 const ConversationPage = () => {
@@ -46,9 +47,9 @@ border
 w-full
 p-4
 md:px-6
-foces-within:shadow-sm
+focus-within:shadow-sm
 grid
-grid-clos-12
+grid-cols-12
 gap-2" >
 
 <FormField
@@ -67,6 +68,9 @@ placeholder=" How do I calculate the radius of a circle?"
 </FormItem>
 )}
 />
+<Button className="col-span-12 lg:col-span-2">
+Generate 
+</Button>
 </form>
 </Form>
 </div>
