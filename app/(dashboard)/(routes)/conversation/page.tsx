@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Loader } from "@/components/loader";
 
 type MessageType = {
 role: "user" | "assistant";
@@ -100,6 +101,12 @@ Generate
 </div>
 
 <div className="flex flex-col gap-4 mt-4">
+{isLoading && (
+<div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+<Loader/>
+</div>
+)}
+
 {messages.filter(m => m.role === "user").reverse().map((userMsg, index) => {
 const aiMsg = messages.filter(m => m.role === "assistant").reverse()[index];
 return (
