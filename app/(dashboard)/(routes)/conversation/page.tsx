@@ -11,6 +11,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader } from "@/components/loader";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/user-avatar";
+import { BotAvatar } from "@/components/bot-avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 type MessageType = {
 role: "user" | "assistant";
@@ -53,11 +57,9 @@ throw new Error(errorText);
 const data = await response.json();
 setMessages((current) => [...current, userMessage, data]);
 form.reset();
-} 
-catch (error: any) {
+} catch (error: any) {
 console.log(error);
-} 
-finally {
+} finally {
 router.refresh();
 }
 };
@@ -103,19 +105,28 @@ Generate
 <div className="flex flex-col gap-4 mt-4">
 {isLoading && (
 <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-<Loader/>
+<Loader />
 </div>
 )}
 
-{messages.filter(m => m.role === "user").reverse().map((userMsg, index) => {
-const aiMsg = messages.filter(m => m.role === "assistant").reverse()[index];
-return (
-<div key={index} className="flex flex-col gap-2">
-<div className="font-bold">{userMsg.content}</div>
-{aiMsg && <div className="text-gray-700">{aiMsg.content}</div>}
+{messages.map((message, index) => (
+<div
+key={index}
+className={cn(
+"p-8 w-full flex items-start gap-x-7 rounded-lg",
+message.role === "user" 
+? "bg-white border border-black/10" 
+: "bg-muted"
+)}
+>
+{message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+<p className="text-sm">
+{message.content}
+</p>
 </div>
-);
-})}
+))}
+
+
 </div>
 </div>
 </div>
