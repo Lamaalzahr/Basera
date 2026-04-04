@@ -19,13 +19,6 @@ bgColor: "bg-violet-400/15",
 href: "/conversation"
 },
 {
-label:"Music Generation",
-icon: Music,
-color: "text-emerald-400",
-bgColor: "bg-emerald-400/10",
-href: "/music"
-},
-{
 label: "Image Generation",
 icon:ImageIcon,
 color:"text-pink-400",
@@ -42,12 +35,10 @@ bgColor: "bg-orange-400/10",
 {
 label:"Code Generation",
 icon: Code,
-href: "/Code",
-color:"text-red-500",
-bgColor: "bg-red-500/10",
-
+href: "/code",
+color:"text-green-700",
+bgColor: "bg-green-700/10",
 },  
-
 ]
 
 const DashboardPage = () => {

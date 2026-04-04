@@ -35,7 +35,7 @@ color:"text-violet-400",
 {
 label:"Image Generation",
 icon:ImageIcon,
-href: "/Image",
+href: "/image",
 color:"text-pink-400",
 },  
 {
@@ -45,21 +45,15 @@ href: "/video",
 color:"text-orange-400",
 }, 
 {
-label:"Music Generation",
-icon: Music,
-href: "/Music",
-color:"text-emerald-400",
-},  
-{
 label:"Code Generation",
 icon: Code,
-href: "/Code",
-color:"text-red-500",
+href: "/code",
+color:"text-green-700",
 },  
 {
 label:"Settings",
 icon: Settings,
-href: "/Settings",
+href: "/settings",
 color:"text-gray-400",
 },  
 ];
