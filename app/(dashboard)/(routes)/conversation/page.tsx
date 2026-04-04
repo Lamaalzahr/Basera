@@ -51,10 +51,12 @@ throw new Error(errorText);
 
 const data = await response.json();
 setMessages((current) => [...current, userMessage, data]);
-
-} catch (error: any) {
+form.reset();
+} 
+catch (error: any) {
 console.log(error);
-} finally {
+} 
+finally {
 router.refresh();
 }
 };
@@ -96,15 +98,17 @@ Generate
 </form>
 </Form>
 </div>
-<div className="space-y-4 mt-4">
-{messages.map((message, index) => (
-<div key={index}>
-<span className="font-bold">
-{message.role === "user" ? "أنتِ: " : "AI: "}
-</span>
-{message.content}
+
+<div className="flex flex-col gap-4 mt-4">
+{messages.filter(m => m.role === "user").reverse().map((userMsg, index) => {
+const aiMsg = messages.filter(m => m.role === "assistant").reverse()[index];
+return (
+<div key={index} className="flex flex-col gap-2">
+<div className="font-bold">{userMsg.content}</div>
+{aiMsg && <div className="text-gray-700">{aiMsg.content}</div>}
 </div>
-))}
+);
+})}
 </div>
 </div>
 </div>
