@@ -6,35 +6,52 @@ import { Heading } from "@/components/heading";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Form, 
-FormControl, 
-FormField, 
-FormItem, } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import OpenAI from "openai";
 
+type MessageType = {
+role: "user" | "assistant";
+content: string;
+};
 
 const ConversationPage = () => {
 const router = useRouter();
-type MessageType = OpenAI.Chat.ChatCompletionMessageParam;
+const [messages, setMessages] = useState<MessageType[]>([]);
 
-const form = useForm<z.infer<typeof formSchema>> ({
-resolver:zodResolver(formSchema),
+const form = useForm<z.infer<typeof formSchema>>({
+resolver: zodResolver(formSchema),
 defaultValues: {
-prompt:""
+prompt: ""
 }
 });
 
 const isLoading = form.formState.isSubmitting;
-const onSubmit = async ( values: z.infer<typeof formSchema>) =>{
+
+const onSubmit = async (values: z.infer<typeof formSchema>) => {
 try {
-  const userMessage: ChatCompletionMessageParam = {
-    role: "user",
-    content: values.prompt,
-  };
-  
+const userMessage: MessageType = {
+role: "user",
+content: values.prompt,
+};
+
+const newMessages = [...messages, userMessage];
+
+const response = await fetch("/api/conversation", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ messages: newMessages })
+});
+
+if (!response.ok) {
+const errorText = await response.text();
+throw new Error(errorText);
+}
+
+const data = await response.json();
+setMessages((current) => [...current, userMessage, data]);
+
 } catch (error: any) {
 console.log(error);
 } finally {
@@ -42,7 +59,7 @@ router.refresh();
 }
 };
 
-return(
+return (
 <div>
 <Heading 
 title="Conversation"
@@ -51,33 +68,22 @@ icon={MessageSquare}
 iconColor="text-violet-400"
 bgColor="bg-violet-400/10"
 />
-
 <div className="px-4 lg:px-8">
 <div>
-<Form{...form}>
+<Form {...form}>
 <form
 onSubmit={form.handleSubmit(onSubmit)}
-className="
-rounded-lg
-border
-w-full
-p-4
-md:px-6
-focus-within:shadow-sm
-grid
-grid-cols-12
-gap-2" >
-
+className="rounded-lg border w-full p-4 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
+>
 <FormField
 name="prompt"
 render={({ field }) => (
 <FormItem className="col-span-12 lg:col-span-10">
 <FormControl className="m-0 p-0">
-
 <Input
 className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
 disabled={isLoading}
-placeholder=" How do I calculate the radius of a circle?"
+placeholder="How do I calculate the radius of a circle?"
 {...field}
 />
 </FormControl>
@@ -90,10 +96,15 @@ Generate
 </form>
 </Form>
 </div>
-
 <div className="space-y-4 mt-4">
-Messages Content
-
+{messages.map((message, index) => (
+<div key={index}>
+<span className="font-bold">
+{message.role === "user" ? "أنتِ: " : "AI: "}
+</span>
+{message.content}
+</div>
+))}
 </div>
 </div>
 </div>
