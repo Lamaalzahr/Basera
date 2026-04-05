@@ -14,6 +14,11 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
 
 type MessageType = {
 role: "user" | "assistant";
@@ -112,16 +117,44 @@ Generate
 <div
 key={index}
 className={cn(
-"p-8 w-full flex items-start gap-x-7 rounded-lg",
+"p-8 w-full flex items-start gap-x-7 rounded-lg overflow-hidden",
 message.role === "user" 
 ? "bg-white border border-black/10" 
 : "bg-muted"
 )}
 >
 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-<p className="text-sm">
-{message.content}
-</p>
+
+<div className="text-sm overflow-hidden break-words min-w-0">
+<ReactMarkdown
+remarkPlugins={[remarkGfm]}
+components={{
+code({ node, className, children, ...props }: any) {
+const inline = !className?.startsWith("language-");
+const match = /language-(\w+)/.exec(className || "");
+return !inline && match ? (
+<SyntaxHighlighter
+style={oneDark as any}
+language={match[1]}
+PreTag="div"
+className="rounded-lg my-2 overflow-x-auto"
+>
+{String(children).replace(/\n$/, "")}
+</SyntaxHighlighter>
+) : (
+<code className="bg-black/10 rounded px-1 py-0.5 text-sm" {...props}>
+{children}
+</code>
+);
+},
+pre({ children }) {
+return <div className="overflow-x-auto w-full">{children}</div>;
+}
+}}
+>
+{message.content || ""}
+</ReactMarkdown>
+</div>
 </div>
 ))}
 </div>
