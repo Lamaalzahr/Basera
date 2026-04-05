@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 try {
 const { userId } = await auth();
 const body = await req.json();
-const { messages } = body;
+const { prompt, amount = 1, resolution = "512x512" } = body;
 
 if (!userId) {
 return new NextResponse("Unauthorized", { status: 401 });
@@ -20,11 +20,19 @@ if (!process.env.GROQ_API_KEY) {
 return new NextResponse("Groq API Key not configured", { status: 500 });
 }
 
-if (!messages) {
-return new NextResponse("Messages are required", { status: 400 });
+if (!prompt) {
+return new NextResponse("Prompt is required", { status: 400 });
 }
 
-const response = await groq.chat.completions.create({
+if (!amount) {
+return new NextResponse("Amount is required", { status: 400 });
+}
+
+if (!resolution) {
+return new NextResponse("Resolution is required", { status: 400 });
+}
+
+const response = await groq.chat.createImage({
 model: "llama-3.3-70b-versatile",
 messages: [
 {
