@@ -207,7 +207,7 @@ message.role === "user"
 )}
 >
 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-{message.role === "assistant" && message.content.startsWith("http") ? (
+{message.role === "assistant" && (message.content.startsWith("http") || message.content.startsWith("data:image")) ? (
 <div className="relative w-full h-64 mt-2">
 <NextImage
 src={message.content}

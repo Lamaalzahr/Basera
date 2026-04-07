@@ -1,56 +1,51 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import Groq from "groq-sdk";
-
-const groq = new Groq({
-apiKey: process.env.GROQ_API_KEY,
-});
 
 export async function POST(req: Request) {
 try {
 const { userId } = await auth();
 const body = await req.json();
-const { prompt, amount = 1, resolution = "512x512" } = body;
+const { messages, amount = 1, resolution = "512x512" } = body;
 
 if (!userId) {
 return new NextResponse("Unauthorized", { status: 401 });
 }
 
-if (!process.env.GROQ_API_KEY) {
-return new NextResponse("Groq API Key not configured", { status: 500 });
+if (!process.env.HUGGINGFACE_API_KEY) {
+return new NextResponse("Hugging Face API Key not configured", { status: 500 });
 }
 
-if (!prompt) {
-return new NextResponse("Prompt is required", { status: 400 });
+if (!messages) {
+return new NextResponse("Messages are required", { status: 400 });
 }
 
-if (!amount) {
-return new NextResponse("Amount is required", { status: 400 });
-}
+const prompt = messages[messages.length - 1].content;
 
-if (!resolution) {
-return new NextResponse("Resolution is required", { status: 400 });
-}
-
-const response = await groq.chat.createImage({
-model: "llama-3.3-70b-versatile",
-messages: [
+const response = await fetch(
+"https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0",
 {
-role: "system",
-content: `أنت مساعد ذكاء اصطناعي لمنصة بصيرة. اسمك "بصيرة". 
-تجيب دائماً بنفس لغة المستخدم. 
-لا تخلط بين اللغات أو تدخل حروفاً غريبة.
-إذا سألك أحد من صممك أو طورك، قل: "تم تطويري بواسطة لمى الزهراني ".
-إذا سألك عن اسمك، قل: "اسمي بصيرة".`
+method: "POST",
+headers: {
+Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+"Content-Type": "application/json",
 },
-...messages
-],
-});
+body: JSON.stringify({ inputs: prompt }),
+}
+);
 
-return NextResponse.json(response.choices[0].message);
+if (!response.ok) {
+const error = await response.text();
+throw new Error(error);
+}
+
+const imageBlob = await response.arrayBuffer();
+const base64 = Buffer.from(imageBlob).toString("base64");
+const imageUrl = `data:image/png;base64,${base64}`;
+
+return NextResponse.json({ role: "assistant", content: imageUrl });
 
 } catch (error: any) {
-console.log("[CONVERSATION_ERROR]", error);
+console.log("[IMAGE_ERROR]", error);
 return new NextResponse(JSON.stringify({
 error: error.message
 }), {
@@ -59,4 +54,3 @@ headers: { "Content-Type": "application/json" }
 });
 }
 }
-
