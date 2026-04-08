@@ -1,5 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { checkRateLimit } from "@/lib/rateLimit";
+
 
 export async function POST(req: Request) {
 try {
@@ -9,6 +11,11 @@ const { messages, amount = 1, resolution = "512x512" } = body;
 
 if (!userId) {
 return new NextResponse("Unauthorized", { status: 401 });
+}
+
+const { allowed } = await checkRateLimit(userId, "conversation"); 
+if (!allowed) {
+return new NextResponse("Free limit reached", { status: 403 });
 }
 
 if (!process.env.HUGGINGFACE_API_KEY) {

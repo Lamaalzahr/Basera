@@ -1,6 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import { checkRateLimit } from "@/lib/rateLimit";
+
+
 
 const groq = new Groq({
 apiKey: process.env.GROQ_API_KEY,
@@ -14,6 +17,11 @@ const { messages } = body;
 
 if (!userId) {
 return new NextResponse("Unauthorized", { status: 401 });
+}
+
+const { allowed } = await checkRateLimit(userId, "conversation"); 
+if (!allowed) {
+return new NextResponse("Free limit reached", { status: 403 });
 }
 
 if (!process.env.GROQ_API_KEY) {
