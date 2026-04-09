@@ -13,12 +13,15 @@ Settings
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useLimit } from "@/hooks/use-limit";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 
 const montserrat= Montserrat({
 weight: "600",
 subsets:["latin"]
 });
+
 
 const routes = [
 {
@@ -86,7 +89,11 @@ fetchUsage();
 const totalMax = MAX * PAGES.length;
 const percentage = (totalUsed / totalMax) * 100;
 
-
+const Sidebar = () => {
+const pathname = usePathname();
+const { totalUsed, totalMax, remaining, percentage, isWarning } = useLimit();
+const { onOpen } = useProModal();
+}
 return (
 <div className="space-y-4 py-4 flex-col h-full text-white bg-[#2e4e8e]">
 <div className="px-3 py-2 flex-1">
@@ -147,4 +154,4 @@ Upgrade ⚡
 
 );
 }
-export default Sidebar; 
+export default Sidebar;

@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 type MessageType = {
 role: "user" | "assistant";
@@ -24,6 +25,7 @@ content: string;
 const ConversationPage = () => {
 const router = useRouter();
 const [messages, setMessages] = useState<MessageType[]>([]);
+const { onOpen } = useProModal();
 
 const form = useForm<z.infer<typeof formSchema>>({
 resolver: zodResolver(formSchema),
@@ -48,6 +50,11 @@ method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ messages: newMessages })
 });
+
+if (response.status === 403) {
+onOpen(); 
+return;
+}
 
 if (!response.ok) {
 const errorText = await response.text();

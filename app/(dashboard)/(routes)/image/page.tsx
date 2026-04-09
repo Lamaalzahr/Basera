@@ -24,6 +24,8 @@ SelectLabel,
 SelectTrigger,
 SelectValue,
 } from "@/components/ui/select";
+import { useProModal } from "@/hooks/use-pro-modal";
+
 
 type MessageType = {
 role: "user" | "assistant";
@@ -47,6 +49,7 @@ const resolutionOptions = [
 const ImagePage = () => {
 const router = useRouter();
 const [messages, setMessages] = useState<MessageType[]>([]);
+const { onOpen } = useProModal();
 
 const form = useForm<z.infer<typeof formSchema>>({
 resolver: zodResolver(formSchema),
@@ -77,6 +80,11 @@ amount: values.amount,
 resolution: values.resolution
 })
 });
+
+if (response.status === 403) {  
+onOpen();
+return;
+}
 
 if (!response.ok) {
 const errorText = await response.text();

@@ -18,7 +18,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-
+import { useProModal } from "@/hooks/use-pro-modal";
 
 type MessageType = {
 role: "user" | "assistant";
@@ -28,6 +28,7 @@ content: string;
 const CodePage = () => {
 const router = useRouter();
 const [messages, setMessages] = useState<MessageType[]>([]);
+const { onOpen } = useProModal(); 
 
 const form = useForm<z.infer<typeof formSchema>>({
 resolver: zodResolver(formSchema),
@@ -52,6 +53,11 @@ method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ messages: newMessages })
 });
+
+if (response.status === 403) {
+onOpen(); 
+return;
+}
 
 if (!response.ok) {
 const errorText = await response.text();

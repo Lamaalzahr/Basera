@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { ProModal } from "@/components/pro-modal";
 
 const geistSans = Geist({
 variable: '--font-geist-sans',
@@ -40,6 +41,7 @@ Sign Up
 <UserButton />
 </Show>
 </header>
+<ProModal />
 {children}
 </ClerkProvider>
 </body>

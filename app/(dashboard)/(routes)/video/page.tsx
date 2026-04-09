@@ -11,11 +11,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader } from "@/components/loader";
+import { useProModal } from "@/hooks/use-pro-modal";
+
 
 const VideoPage = () => {
 const router = useRouter();
 const [videoUrl, setVideoUrl] = useState<string>();
 const [isLoading, setIsLoading] = useState(false);
+const { onOpen } = useProModal(); 
 
 const form = useForm<z.infer<typeof formSchema>>({
 resolver: zodResolver(formSchema),
@@ -32,6 +35,11 @@ method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ messages: [{ role: "user", content: values.prompt }] })
 });
+
+if (response.status === 403) { 
+onOpen();
+return;
+}
 
 if (!response.ok) {
 const errorText = await response.text();
