@@ -69,8 +69,14 @@ const [totalUsed, setTotalUsed] = useState(0);
 useEffect(() => {
 const fetchUsage = async () => {
 const results = await Promise.all(
-PAGES.map((page) => fetch(`/api/limit?page=${page}`).then((r) => r.json()))
+PAGES.map((page) =>
+fetch(`/api/limit?page=${page}`, {
+credentials: "include", 
+
+}).then((r) => r.json())
+)
 );
+
 const used = results.reduce((sum, r) => sum + (r.count ?? 0), 0);
 setTotalUsed(Math.min(used, MAX * PAGES.length));
 };
@@ -120,7 +126,7 @@ pathname === route.href ? "text-white bg-white/10":
 
 <div className="px-3 pb-4">
 <div className="bg-white/10 rounded-lg p-3 space-y-2">
-<p className="text-xs text-center text-zinc-300">
+<p className="text-xs text-center text-zinc-200">
 {totalUsed} / {totalMax} Free Generations
 </p>
 <div className="w-full bg-white/20 rounded-full h-2">

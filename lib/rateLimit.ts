@@ -1,6 +1,6 @@
 import { prisma } from "./prismadb";
 
-const MAX_VISITS = 4;
+const MAX_VISITS = 16;
 
 export async function checkRateLimit(
 identifier: string,
