@@ -8,11 +8,12 @@ import { LayoutDashboard,
 MessageSquare, 
 ImageIcon, 
 VideoIcon, 
-Music, 
 Code,
 Settings
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
 
 const montserrat= Montserrat({
 weight: "600",
@@ -58,8 +59,28 @@ color:"text-gray-400",
 },  
 ];
 
+const PAGES = ["conversation", "image", "video", "code"];
+const MAX = 4;
+
 const Sidebar = () => {
-const pathname = usePathname()
+const pathname = usePathname();
+const [totalUsed, setTotalUsed] = useState(0);
+
+useEffect(() => {
+const fetchUsage = async () => {
+const results = await Promise.all(
+PAGES.map((page) => fetch(`/api/limit?page=${page}`).then((r) => r.json()))
+);
+const used = results.reduce((sum, r) => sum + (r.count ?? 0), 0);
+setTotalUsed(Math.min(used, MAX * PAGES.length));
+};
+fetchUsage();
+}, [pathname]);
+
+const totalMax = MAX * PAGES.length;
+const percentage = (totalUsed / totalMax) * 100;
+
+
 return (
 <div className="space-y-4 py-4 flex-col h-full text-white bg-[#2e4e8e]">
 <div className="px-3 py-2 flex-1">
@@ -94,6 +115,26 @@ pathname === route.href ? "text-white bg-white/10":
 </Link>
 ))}
 
+</div>
+</div>
+
+<div className="px-3 pb-4">
+<div className="bg-white/10 rounded-lg p-3 space-y-2">
+<p className="text-xs text-center text-zinc-300">
+{totalUsed} / {totalMax} Free Generations
+</p>
+<div className="w-full bg-white/20 rounded-full h-2">
+<div
+className="bg-gradient-to-r from-violet-500 to-pink-500 h-2 rounded-full transition-all"
+style={{ width: `${percentage}%` }}
+/>
+</div>
+<Link
+href="/settings"
+className="w-full flex items-center justify-center bg-gradient-to-r from-violet-600 to-pink-600 rounded-lg py-2 text-sm font-medium hover:opacity-90 transition"
+>
+Upgrade ⚡
+</Link>
 </div>
 </div>
 </div>
