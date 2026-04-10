@@ -1,29 +1,19 @@
 "use client";
 
 import { useProModal } from "@/hooks/use-pro-modal";
-import { Badge } from "@/components/ui/badge";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, Zap, MessageSquare, ImageIcon, VideoIcon, Code } from "lucide-react";
+import { Check, MessageSquare, ImageIcon, VideoIcon, Code } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const features = [
-{ icon: MessageSquare, 
-label: "Conversation", 
-color: "text-violet-400" },
-
-{ icon: ImageIcon,     
-label: "Image Generation", 
-color: "text-pink-400" },
-
-{ icon: VideoIcon,     
-label: "Video Generation", 
-color: "text-orange-400" },
-
-{ icon: Code,          
-label: "Code Generation",  
-color: "text-green-700" },
+{ icon: MessageSquare, label: "Conversation",     color: "text-violet-400" },
+{ icon: ImageIcon,     label: "Image Generation", color: "text-pink-400"   },
+{ icon: VideoIcon,     label: "Video Generation", color: "text-orange-400" },
+{ icon: Code,          label: "Code Generation",  color: "text-green-700"  },
 ];
 
 export const ProModal = () => {
@@ -31,7 +21,7 @@ const { isOpen, onClose } = useProModal();
 
 return (
 <Dialog open={isOpen} onOpenChange={onClose}>
-<DialogContent className="max-w-md">
+<DialogContent className="max-w-md sm:max-w-md bottom-0 sm:bottom-auto top-auto sm:top-[50%] translate-y-0 sm:-translate-y-1/2 rounded-t-2xl sm:rounded-xl z-[9999] sm:rounded-xl rounded-t-2xl">
 <DialogHeader className="space-y-3">
 <div className="flex items-center gap-2 justify-center">
 <DialogTitle className="text-xl font-bold">Upgrade to Genius</DialogTitle>

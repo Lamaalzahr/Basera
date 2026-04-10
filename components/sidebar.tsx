@@ -63,7 +63,7 @@ color:"text-gray-400",
 ];
 
 const PAGES = ["conversation", "image", "video", "code"];
-const MAX = 4;
+const MAX = 1;
 
 const Sidebar = () => {
 const pathname = usePathname();
@@ -95,8 +95,8 @@ const { totalUsed, totalMax, remaining, percentage, isWarning } = useLimit();
 const { onOpen } = useProModal();
 }
 return (
-<div className="space-y-4 py-4 flex-col h-full text-white bg-[#2e4e8e]">
-<div className="px-3 py-2 flex-1">
+<div className="flex flex-col h-full py-4 text-white bg-[#2e4e8e]">
+<div className="px-3 py-2 flex-1 overflow-y-auto">
 <Link href="/dashboard" className="flex items-center pl-3 mb-14">
 
 <div className="relative w-20 h-20 mr-1">
@@ -131,7 +131,7 @@ pathname === route.href ? "text-white bg-white/10":
 </div>
 </div>
 
-<div className="px-3 pb-4">
+<div className="px-3 pb-4 mt-auto">
 <div className="bg-white/10 rounded-lg p-3 space-y-2">
 <p className="text-xs text-center text-zinc-200">
 {totalUsed} / {totalMax} Free Generations
