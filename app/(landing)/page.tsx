@@ -1,11 +1,13 @@
+import { LandingHero } from "@/components/landing-hero";
+import { LandingNavbar } from "@/components/landing-navbar";
 
 const LandingPage = () => {
 return (
-<div> 
-Landing Page (Unprotected)
-
+<div className="h-full"> 
+<LandingNavbar /> 
+<LandingHero />
 </div>
 
-)
+);
 }
-export default LandingPage;
+export default LandingPage; 

@@ -134,3 +134,11 @@ html {
 @apply font-sans;
 }
 }
+
+.cl-rootBox {
+background-color: transparent !important;
+}
+
+header:has(.cl-rootBox) {
+background-color: #111827 !important;
+}
