@@ -30,3 +30,9 @@ updatedAt DateTime @updatedAt
 datasource db {
 provider  = "postgresql"
 }
+
+datasource db {
+provider  = "postgresql"
+url       = env("DATABASE_URL")
+directUrl = env("DIRECT_URL")
+}
