@@ -30,8 +30,3 @@ updatedAt DateTime @updatedAt
 datasource db {
 provider  = "postgresql"
 }
-
-datasource db {
-provider  = "postgresql"
-
-}
