@@ -17,16 +17,16 @@ createdAt DateTime @default(now())
 }
 
 model RateLimit {
-id        Int      @id @default(autoincrement())
-identifier String  
-page      String  
-count     Int      @default(1)
-createdAt DateTime @default(now())
-updatedAt DateTime @updatedAt
+id         Int      @id @default(autoincrement())
+identifier String
+page       String
+count      Int      @default(1)
+createdAt  DateTime @default(now())
+updatedAt  DateTime @updatedAt
 
-@@unique([identifier, page]) 
+@@unique([identifier, page])
 }
 
 datasource db {
-provider  = "postgresql"
+provider = "postgresql"
 }
